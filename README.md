@@ -10,4 +10,4 @@
 ## Лабораторные работы
 
 * **Лабораторная работа №1:** ["Установка ContainerLab и развертывание тестовой сети связи"](https://github.com/VladislaZyuzin/2025_2026-introduction_in_routing-k3320-zyuzin_v_a/tree/main/lab_1)
-* **Лабораторная работа №1:** ["Эмуляция распределенной корпоративной сети связи, настройка статической маршрутизации между филиалами"](https://github.com/VladislaZyuzin/2025_2026-introduction_in_routing-k3320-zyuzin_v_a/tree/main/lab_2)
+* **Лабораторная работа №2:** ["Эмуляция распределенной корпоративной сети связи, настройка статической маршрутизации между филиалами"](https://github.com/VladislaZyuzin/2025_2026-introduction_in_routing-k3320-zyuzin_v_a/tree/main/lab_2)
