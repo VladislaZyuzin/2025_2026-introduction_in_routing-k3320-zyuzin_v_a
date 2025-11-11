@@ -220,7 +220,13 @@ udhcpc -i eth2
 ip route del default via 192.168.10.1 dev eth0
 ```
 
+### Пример работы
+
+При успешном запуске будет видна следующая запись:
+
 <img width="1677" height="1609" alt="image" src="https://github.com/user-attachments/assets/c1f67a02-05ed-49dc-8e10-bf1a74c1b47e" />
+
+Пример использования команд `routing ospf neighbour print` и `mpls ldp neighbour pring` на `R01_spb`:
 
 <img width="1060" height="634" alt="image" src="https://github.com/user-attachments/assets/1bfa071b-1ad5-40f7-9608-9c994c4e8117" />
 
