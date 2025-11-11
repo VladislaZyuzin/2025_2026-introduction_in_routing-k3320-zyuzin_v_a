@@ -1,4 +1,4 @@
-<img width="713" height="391" alt="image" src="https://github.com/user-attachments/assets/e0200554-7927-41ed-bad9-f2d545f951d9" /># Отчет по лабораторной работе №3
+# Отчет по лабораторной работе №3
 
 ## Университет
 * **University:** [ITMO University](https://itmo.ru/ru/)
