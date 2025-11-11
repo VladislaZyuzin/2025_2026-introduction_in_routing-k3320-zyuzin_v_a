@@ -100,7 +100,7 @@ topology:
 
 ![lab3-topology](https://github.com/user-attachments/assets/3904043b-9aaa-480c-8fe2-c5088b024a48)
 
-### Настройка роутеров
+### Настройка роутеров, ПК и тачки
 
 Маршрутизаторы компании "RogaIKopita Games" настроены для объединения в единую `IP/MPLS-сеть`. Каждый из них подключён к своему региону, использует протокол OSPF для динамической маршрутизации и `MPLS` для передачи данных. Для организации туннеля второго уровня применяется технология `EoMPLS`, обеспечивающая связь между сервером `SGI Prism` в Нью-Йорке и `ПК` в Санкт-Петербурге. Базовые настройки маршрутизаторов включают конфигурацию интерфейсов, назначение IP-адресов и активацию `LDP (Label Distribution Protocol)` для обмена MPLS-метками.
 
@@ -144,6 +144,80 @@ add area=backbone network=192.168.1.0/24
 add area=backbone network=172.16.1.2/32
 /system identity
 set name=R01_SPB
+```
+
+Маршрутизатор `R01_NY` настроен для подключения к сети офиса в Нью-Йорке и взаимодействия с маршрутизатором `R01.SPb` через VPLS туннель. Включен OSPF с указанием `router-id` для идентификации, настроены интерфейсы `ether3` и `ether4` для связи с другими офисами. Создан `bridge vpn` для объединения VPLS-соединения с локальным сервером `SGI Prism`.
+
+Пример настройки `R01_NY`:
+
+```rsc
+/interface bridge
+add name=loopback
+add name=vpn
+/interface vpls
+add disabled=no l2mtu=1500 mac-address=02:5C:67:11:1C:D6 name=eovpls remote-peer=172.16.1.2 vpls-id=65500:666
+/routing ospf instance
+set [ find default=yes ] router-id=172.16.6.2
+/interface bridge port
+add bridge=vpn interface=ether5
+add bridge=vpn interface=eovpls
+/ip address
+add address=172.16.6.2/32 interface=loopback network=172.16.6.2
+add address=172.16.6.102/30 interface=ether3 network=172.16.6.100
+add address=172.16.7.102/30 interface=ether4 network=172.16.7.100
+add address=192.168.2.1/30 interface=ether5 network=192.168.2.0
+add address=10.10.10.1/24 interface=vpn network=10.10.10.0
+/mpls ldp
+set enabled=yes lsr-id=172.16.6.2 transport-address=172.16.6.2
+/mpls ldp interface
+add interface=ether3
+add interface=ether4
+add interface=ether5
+/routing ospf network
+add area=backbone network=172.16.6.100/30
+add area=backbone network=172.16.7.100/30
+add area=backbone network=172.16.6.2/32
+/system identity
+set name=R01_NY
+```
+
+Маршрутизаторы `R01_HKI`, `R01_MSK`, `R01_LND`, и `R01_LBN` настроены как промежуточные устройства, поддерживающие обмен данными между узловыми маршрутизаторами. На каждом маршрутизаторе включены OSPF и MPLS для динамической маршрутизации и распространения меток. Настроены интерфейсы с назначенными IP-адресами для маршрутизации трафика между различными офисами и реализации IP/MPLS сети, обеспечивающей стабильное соединение между офисами компании.
+
+Пример настройки `R01_HKI`:
+
+```rsc
+/interface bridge
+add name=loopback
+/routing ospf instance
+set [ find default=yes ] router-id=172.16.2.2
+/ip address
+add address=172.16.2.2/32 interface=loopback network=172.16.2.2
+add address=172.16.1.102/30 interface=ether3 network=172.16.1.100
+add address=172.16.3.101/30 interface=ether4 network=172.16.3.100
+add address=172.16.4.101/30 interface=ether5 network=172.16.4.100
+/mpls ldp
+set enabled=yes lsr-id=172.16.2.2 transport-address=172.16.2.2
+/mpls ldp interface
+add interface=ether3
+add interface=ether4
+add interface=ether5
+/routing ospf network
+add area=backbone network=172.16.1.100/30
+add area=backbone network=172.16.3.100/30
+add area=backbone network=172.16.4.100/30
+add area=backbone network=172.16.2.2/32
+/system identity
+set name=R01_HKI
+```
+
+Тачка в Нью-Йорке и PC в Питере сетапятся по общему конфигу. В нём предусмотрена раздача IP-адресов dhcp сервером для `eth2`, по которому данные эндпоинты выходят в сеть, так же при выдаче dhcp адреса предусмотрено удаление для эндпоинтов айпи `192.168.10.1`, чтобы никто не получил айпи адрес шлюза.
+
+Скрипт для `pc.sh`
+
+```bash
+#!/bin/sh
+udhcpc -i eth2
+ip route del default via 192.168.10.1 dev eth0
 ```
 
 <img width="1677" height="1609" alt="image" src="https://github.com/user-attachments/assets/c1f67a02-05ed-49dc-8e10-bf1a74c1b47e" />
