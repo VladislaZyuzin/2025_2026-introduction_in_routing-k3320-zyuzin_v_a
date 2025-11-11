@@ -232,8 +232,16 @@ ip route del default via 192.168.10.1 dev eth0
 
 <img width="1545" height="826" alt="image" src="https://github.com/user-attachments/assets/46f2eca2-7f4e-4c8b-8196-87137e034674" />
 
+Далее - проверим, как работает настройка dhcp на ендпоинтах, затем - пропингуем ПК и тачку по тем айпи адресам, которые были заданы по dhcp
+
 <img width="1333" height="1179" alt="image" src="https://github.com/user-attachments/assets/bab92cdb-77cd-4d4e-b313-9f8a8069d4ca" />
 
 <img width="1243" height="1343" alt="image" src="https://github.com/user-attachments/assets/6a424abb-f03b-4791-b252-262e1228eb36" />
 
 <img width="1143" height="895" alt="image" src="https://github.com/user-attachments/assets/f6086430-cbbf-4bf1-9438-7380536bc9fa" />
+
+Как мы видим - пинги прошли успешно, что говорит о том, что связь есть и `VPLS` связывает логически тачку и пк. А значит - файлы можно передавать с одного эндпоинта на другой
+
+## Заключение 
+
+Была разработана концепция настройки OSPF, MPLS и VPLS, благодаря которой появилась возможность быстро и без проблем передавать данные через роутеры вне зависимости от точки на карте мира
