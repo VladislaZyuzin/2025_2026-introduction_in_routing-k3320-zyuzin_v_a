@@ -1,4 +1,4 @@
-# Отчет по лабораторной работе №3
+<img width="713" height="391" alt="image" src="https://github.com/user-attachments/assets/e0200554-7927-41ed-bad9-f2d545f951d9" /># Отчет по лабораторной работе №3
 
 ## Университет
 * **University:** [ITMO University](https://itmo.ru/ru/)
@@ -11,6 +11,91 @@
 * **Date of create:** 10.11.2025
 * **Date of finished:** 11.11.2025
 
+## Задание
+
+Вам необходимо сделать IP/MPLS сеть связи для "RogaIKopita Games" в ContainerLab. Необходимо создать все устройства, указанные на схеме и соединения между ними.
+
+* Помимо этого вам необходимо настроить IP адреса на интерфейсах.
+* Настроить OSPF и MPLS.
+* Настроить EoMPLS.
+* Назначить адресацию на контейнеры, связанные между собой EoMPLS.
+* Настроить имена устройств, сменить логины и пароли.
+
+<img width="713" height="391" alt="image" src="https://github.com/user-attachments/assets/4f66469f-e785-4add-bac0-ff7116762360" />
+
+## Описание работы
+
+Для выполнения работы была арендована VPS от провайдера HOSTKEY, которая работает на CentOS. На неё были установлены `docker`, `make` и `containerlab`, а также склонирован репозиторий `hellt/vrnetlab` (в папку routeros был загружен файл chr-6.47.9.vmdk). C помощью `make docker-image` был собран соответствуший образ.
+
+### Немного теории
+
+**MPLS (Multy Protocol Label Switching)** - это провайдерская сеть, которая нужна, чтобы трафик между узлами шёл быстрее и гибче по меткам. То есть сервера уже заранее знаю откуда им следует ждать и куда следуюет передавать пакеты данных. 
+**OSPF** - прокаченный `RIPv2`, благодаря которому у роутеров есть точная карта маршрутизации, куда следует передавать данные
+**EoMPLS / VPLS** - способ протянуть виртуальный эзер поверх MPLS. Он нужен чтобы соединить PC1 и SGI Prism, так, как если бы они были воткнуты в один свич.
+
+### Топология
+
+Топология сети для компании "RogaIKopita Games" организована для связи офисов в разных городах (Санкт-Петербург, Хельсинки, Москва, Лондон, Лиссабон и Нью-Йорк) с использованием маршрутизаторов MikroTik, объединённых через OSPF и MPLS. Основной целью сети является обеспечение возможности передачи данных между двумя конкретными устройствами — сервером `SGI Prism` (Нью-Йорк) и `PC1` (Санкт-Петербург) — для доступа к наработкам в области компьютерной графики. В основе организации сети лежит использование EoMPLS, что позволяет установить туннель второго уровня между этими устройствами, делая их частью одной и той же виртуальной локальной сети (L2VPN) поверх IP/MPLS инфраструктуры.
+
+Сеть состоит из шести маршрутизаторов, каждый из которых закреплён за одним из городов и подключён к остальным через Ethernet-соединения, а также двух компьютеров на базе Linux.
+
+```yaml
+name: lab_3
+
+mgmt: 
+  network: static
+  ipv4-subnet: 192.168.10.0/24
+
+topology:
+  kinds: 
+    vr-mikrotik_ros: 
+      image: vrnetlab/mikrotik_routeros:6.47.9
+    linux: 
+      image: alpine:latest
+  nodes:
+    R01.SPb:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.11
+      startup-config: configs/spb.rsc
+    R01_HKI:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.12
+      startup-config: configs/hki.rsc
+    R01_MSK:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.13
+      startup-config: configs/msk.rsc
+    R01_LND:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.14
+      startup-config: configs/lnd.rsc
+    R01_LBN:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.15
+      startup-config: configs/lbn.rsc
+    R01_NY:
+      kind: vr-mikrotik_ros
+      mgmt-ipv4: 192.168.10.16
+      startup-config: configs/ny.rsc
+    PC1: 
+      kind: linux
+      binds: 
+        - ./configs:/configs/
+    SGI_PRISM:
+      kind: linux
+      binds: 
+        - ./configs:/configs/    
+  links: 
+    - endpoints: ["R01.SPb:eth2", "R01_HKI:eth2"]
+    - endpoints: ["R01.SPb:eth3", "R01_MSK:eth2"]
+    - endpoints: ["R01.SPb:eth4", "PC1:eth2"] 
+    - endpoints: ["R01_HKI:eth3", "R01_LND:eth2"]
+    - endpoints: ["R01_HKI:eth4", "R01_LBN:eth2"]
+    - endpoints: ["R01_LBN:eth3", "R01_MSK:eth3"]
+    - endpoints: ["R01_LBN:eth4", "R01_NY:eth3"]
+    - endpoints: ["R01_NY:eth2", "R01_LND:eth3"]
+    - endpoints: ["R01_NY:eth4", "SGI_PRISM:eth2"]
+```
 
 <img width="1677" height="1609" alt="image" src="https://github.com/user-attachments/assets/c1f67a02-05ed-49dc-8e10-bf1a74c1b47e" />
 
