@@ -10,3 +10,8 @@
 * **Lab:** Lab1
 * **Date of create:** 10.11.2025
 * **Date of finished:** 11.11.2025
+
+
+<img width="1677" height="1609" alt="image" src="https://github.com/user-attachments/assets/c1f67a02-05ed-49dc-8e10-bf1a74c1b47e" />
+
+
