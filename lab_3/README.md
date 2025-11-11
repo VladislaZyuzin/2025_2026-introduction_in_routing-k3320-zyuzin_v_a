@@ -1,4 +1,4 @@
-![lab3-topology](https://github.com/user-attachments/assets/3904043b-9aaa-480c-8fe2-c5088b024a48)# Отчет по лабораторной работе №3
+# Отчет по лабораторной работе №3
 
 ## Университет
 * **University:** [ITMO University](https://itmo.ru/ru/)
@@ -98,7 +98,7 @@ topology:
 ```
 Ниже можно ознакомиться с графическим представлением этой схемы:
 
-
+![lab3-topology](https://github.com/user-attachments/assets/3904043b-9aaa-480c-8fe2-c5088b024a48)
 
 <img width="1677" height="1609" alt="image" src="https://github.com/user-attachments/assets/c1f67a02-05ed-49dc-8e10-bf1a74c1b47e" />
 
