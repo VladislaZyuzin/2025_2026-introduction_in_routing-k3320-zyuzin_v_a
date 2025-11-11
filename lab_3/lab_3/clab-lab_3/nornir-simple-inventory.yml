@@ -1,0 +1,41 @@
+---
+PC1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 192.168.10.3
+SGI_PRISM:
+    username: 
+    password: 
+    platform: linux
+    hostname: 192.168.10.2
+R01.SPb:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.11
+R01_HKI:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.12
+R01_LBN:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.15
+R01_LND:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.14
+R01_MSK:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.13
+R01_NY:
+    username: admin
+    password: admin
+    platform: vr-mikrotik_ros
+    hostname: 192.168.10.16
