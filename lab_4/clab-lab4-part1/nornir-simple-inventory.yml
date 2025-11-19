@@ -1,0 +1,46 @@
+---
+PC1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.16.16.2
+PC2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.16.16.3
+PC3:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.16.16.4
+R01.HKI:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.102
+R01.LBN:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.105
+R01.LND:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.104
+R01.NY:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.106
+R01.SPB:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.101
+R01.SVL:
+    username: admin
+    password: admin
+    platform: vr-ros
+    hostname: 172.16.16.103
